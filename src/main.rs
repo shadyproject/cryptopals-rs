@@ -1,5 +1,18 @@
 fn main() {
+    do_challenge_1();
+    do_challenge_2();
+}
+
+fn do_challenge_1() {
     let input = "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d";
     println!("Input: {}", input);
-    println!("Base64: {}", cryptopals_rs::set1::hex_to_base64(input));
+    println!("Base64: {}", cryptopals_rs::set1::challenge1(input));
+}
+
+fn do_challenge_2() {
+    let input = "1c0111001f010100061a024b53535009181c";
+    let key = "686974207468652062756c6c277320657965";
+
+    println!("Input: {}", input);
+    println!("XOR: {}", cryptopals_rs::set1::challenge2(input, key));
 }
