@@ -46,6 +46,11 @@ pub fn challenge3(input: &str) -> (u8, String) {
                 match min_fq {
                     Some(min) => {
                         if fq < min {
+                            println!(
+                                "New best fitting quotient: {}.  Previous: {}",
+                                fq,
+                                min_fq.unwrap()
+                            );
                             key = k;
                             plaintext = text;
                             min_fq = Some(fq);
