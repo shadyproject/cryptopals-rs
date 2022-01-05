@@ -16,8 +16,8 @@ pub fn challenge1(input: &str) -> String {
 
 /// Challenge 2 Write a function that takes two equal-length buffers and produces their XOR combination.
 pub fn challenge2(input: &str, key: &str) -> String {
-    let in_bytes = decode_hex(input).unwrap();
-    let key_bytes = decode_hex(key).unwrap();
+    let in_bytes = decode_hex(input).expect("Unable to parse input hex string into bytes.");
+    let key_bytes = decode_hex(key).expect("Unable to parse key hex string into bytes.");
     let mut result: Vec<u8> = Vec::with_capacity(in_bytes.len());
 
     for (idx, b) in in_bytes.into_iter().enumerate() {
@@ -31,36 +31,43 @@ pub fn challenge2(input: &str, key: &str) -> String {
 /// Returns a tuple with key and plaintext
 pub fn challenge3(input: &str) -> (u8, String) {
     let mut key: u8 = 0;
-    let mut plaintext: Vec<u8> = Vec::new();
+    let mut plaintext: String = String::new();
     let mut min_fq: Option<f64> = None;
 
-    for k in 0u8..=255 {
-        let text = single_byte_xor(input.as_bytes(), k);
-        let fq = fitting_quotient(
-            //TODO don't clone to fix the borrow checker
-            &String::from_utf8(text.clone()).expect("Unable to convert plaintext bytes to string"),
-        );
+    let in_bytes = decode_hex(input).expect("Unable to parse input hex string into bytes.");
 
-        match min_fq {
-            Some(min) => {
-                if fq < min {
-                    key = k;
-                    plaintext = text;
-                    min_fq = Some(fq);
+    for k in 0u8..=255 {
+        println!("Testing key {}", k);
+        let pt = single_byte_xor(&in_bytes, k);
+        let t = String::from_utf8(pt);
+        match t {
+            Ok(text) => {
+                let fq = fitting_quotient(&text);
+                match min_fq {
+                    Some(min) => {
+                        if fq < min {
+                            key = k;
+                            plaintext = text;
+                            min_fq = Some(fq);
+                            println!("Possible key found: {}", k);
+                            println!("Possible plaintext: {}", plaintext);
+                        }
+                    }
+                    None => {
+                        key = k;
+                        plaintext = text;
+                        min_fq = Some(fq);
+                    }
                 }
             }
-            None => {
-                key = k;
-                plaintext = text;
-                min_fq = Some(fq);
+            Err(error) => {
+                println!("Error while testing key: {}", error);
+                continue;
             }
         }
     }
 
-    (
-        key,
-        String::from_utf8(plaintext).expect("Unable to convert plaintext to string"),
-    )
+    (key, plaintext)
 }
 
 /// Fitting Quotient is the measure that suggests how well the two Letter Frequency Distributions match
