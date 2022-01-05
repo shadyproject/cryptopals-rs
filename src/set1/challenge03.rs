@@ -7,9 +7,10 @@ use crate::xor::XOR;
 pub fn run() {
     println!("Challenge 03");
 
-    let ciphertext =
-        utils::decode_hex("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")
-            .expect("Unable to parse ciphertext hex string");
+    let ciphertext = utils::hex_string_to_bytes(
+        "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736",
+    )
+    .expect("Unable to parse ciphertext hex string");
 
     let key = break_single_byte_xor(&ciphertext);
     let plaintext = ciphertext.xor(&[key]);
@@ -31,7 +32,7 @@ fn break_single_byte_xor(input: &[u8]) -> u8 {
 }
 
 /// Fitting Quotient is the measure that suggests how well the two Letter Frequency Distributions match
-fn fitting_quotient(input: &[u8]) -> u32 {
+pub fn fitting_quotient(input: &[u8]) -> u32 {
     if !input.is_ascii() {
         return std::u32::MAX;
     }
