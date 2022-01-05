@@ -2,5 +2,5 @@ fn main() {
     cryptopals_rs::set1::challenge01::run();
     cryptopals_rs::set1::challenge02::run();
     cryptopals_rs::set1::challenge03::run();
-    // do_challenge_4();
+    cryptopals_rs::set1::challenge04::run();
 }
