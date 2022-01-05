@@ -25,6 +25,6 @@ fn test_single_byte_xor() {
 
     assert_eq!(
         expected,
-        cryptopals_rs::set1::single_byte_xor(input.as_bytes(), key)[0]
+        cryptopals_rs::single_byte_xor(input.as_bytes(), key)[0]
     )
 }
