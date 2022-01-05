@@ -1,6 +1,7 @@
 fn main() {
     do_challenge_1();
     do_challenge_2();
+    do_challenge_3();
 }
 
 fn do_challenge_1() {
@@ -15,4 +16,12 @@ fn do_challenge_2() {
 
     println!("Input: {}", input);
     println!("XOR: {}", cryptopals_rs::set1::challenge2(input, key));
+}
+
+fn do_challenge_3() {
+    let input = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736";
+    println!("Input: {}", input);
+
+    let result = cryptopals_rs::set1::challenge3(input);
+    println!("Key: {}\nPlaintext:{}", result.0, result.1)
 }

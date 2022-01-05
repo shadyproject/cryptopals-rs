@@ -16,3 +16,15 @@ fn test_challenge2() {
 
     assert_eq!(expected, cryptopals_rs::set1::challenge2(input, key))
 }
+
+#[test]
+fn test_single_byte_xor() {
+    let input = "A";
+    let key: u8 = 42;
+    let expected: u8 = 0x6b;
+
+    assert_eq!(
+        expected,
+        cryptopals_rs::set1::single_byte_xor(input.as_bytes(), key)[0]
+    )
+}
